@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +20,11 @@
                 <h2>Generar Gastos Comunes</h2>
                 <span>Generación de Gastos Comunes para todos los departamentos</span>
             </header>
-            <form action="">
+            <form action="" method="GET">
+                {% csrf_token %}
                 <div class="input-group"> 
                     <div class="input-container">
-                        <label for="monthYear">Mes y Año</label>
+                        <label for="monthYear">Mes/Año</label>
                         <input id="monthYear" name="monthYear" type="text">
                     </div>
                     <div class="input-container">
@@ -41,7 +43,8 @@
                 <h2>Realizar Pago Gasto Común</h2>
                 <span>Sección de Pago para Gasto Común</span>
             </header>
-            <form action="">
+            <form action="" method="POST">
+                {% csrf_token %}
                 <div class="input-container">
                     <label for="departmentNumber">N° Departamento</label>
                     <input id="departmentNumber" name="departmentNumber" type="number">
@@ -63,10 +66,49 @@
             </form>
         </section>
         <section>
-            <header>
-                <h2>Listado de Gastos Comunes</h2>
-                <span>Listado de Gastos Comunes pendientes</span>
+            <header class="header-container">
+                <div>
+                    <h2>Listado de Deudas Gastos Comunes</h2>
+                    <span>Listado de Gastos Comunes</span>
+                </div>
+                <form method="get" action="">
+                    <label for="estado">Estado de Deuda:</label>
+                    <select name="estado" id="estado">
+                        <option value="">-- Todos --</option>
+                        <option value="Deuda pendiente">Deuda pendiente</option>
+                        <option value="Deuda pagada">Deuda pagada</option>
+                    </select>
+                    <button type="submit">Filtrar</button>
+                </form>
             </header>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID Deuda</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Fecha Pago de Deuda</th>
+                        <th>Periodo de Deuda</th>
+                        <th>Departamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deuda in deudas %}
+                    <tr>
+                        <td>{{ deuda.id_deuda }}</td>
+                        <td>{{ deuda.monto|currency }}</td>
+                        <td>{{ deuda.estado }}</td>
+                        <td>{{ deuda.fecha_deuda }}</td>
+                        <td>{{ deuda.periodo_deuda }}</td>
+                        <td>{{ deuda.num_departamento.num_departamento }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No se encontraron deudas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
     </main>
 </body>

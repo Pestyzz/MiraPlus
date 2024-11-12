@@ -70,6 +70,11 @@ section form {
     padding-right: 40px;
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .input-group {
     display: flex;
     flex-direction: row;
@@ -134,4 +139,72 @@ section form {
 
 .bottom-payment h3 {
     margin: 0;
+}
+
+.header-container form {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.header-container form label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.header-container form select {
+    padding: 8px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.header-container form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #000;
+    color: white;
+    cursor: pointer;
+}
+
+.header-container form button:hover {
+    background-color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th {
+    font-size: 15px;
+}
+
+table thead tr {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: left;
+    font-weight: bold;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+td {
+    font-size: 15px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
 }
