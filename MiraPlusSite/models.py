@@ -46,10 +46,12 @@ class Pago(models.Model):
     monto = models.FloatField()
     estado = models.CharField(max_length=80)
     fecha_pago = models.DateField()
-    id_residente = models.ForeignKey(Residente, on_delete=models.CASCADE)
+    periodo_pago = models.DateField()
+    num_departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Pago {self.id_pago} - Residente {self.id_residente.id_residente}"
+        return f"Pago {self.id_pago} - Departamento {self.num_departamento.num_departamento}"
+
 
 
 class Solicitud(models.Model):
