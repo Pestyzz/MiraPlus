@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Deuda
 
+def index(request):
+    return render(request, 'index.html')
+
 def deuda_list(request):
     # Fetch all Deuda records
     deudas = Deuda.objects.all()
@@ -12,5 +15,3 @@ def deuda_list(request):
 
     # Pass deudas to template
     return render(request, 'deudas.html', {'deudas': deudas})
-
-

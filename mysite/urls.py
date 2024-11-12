@@ -20,9 +20,7 @@ from django.urls import path, include
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('deudas/', include('MiraPlusSite.urls')),
+    path('', include('MiraPlusSite.urls')),
 
 
 ]
-
-
