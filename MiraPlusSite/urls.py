@@ -1,10 +1,9 @@
-from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('/test', views.deuda_list, name='deuda_list')
 ]
 
 if settings.DEBUG:
