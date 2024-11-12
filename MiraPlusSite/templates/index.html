@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesitón Gastos Comunes</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <h1>Gestión de Gastos</h1>
+        </div>
+    </header>
+    <main class="content-container">
+        <section>
+            <header>
+                <h2>Generar Gastos Comunes</h2>
+                <span>Generación de Gastos Comunes para todos los departamentos</span>
+            </header>
+            <form action="">
+                <div class="input-group"> 
+                    <div class="input-container">
+                        <label for="monthYear">Mes y Año</label>
+                        <input id="monthYear" name="monthYear" type="text">
+                    </div>
+                    <div class="input-container">
+                        <label for="mount">Monto</label>
+                        <input id="mount" name="mount" type="number">
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button>Limpiar</button>
+                    <button type="submit">Generar Gasto Común</button>
+                </div>
+            </form>
+        </section>
+        <section>
+            <header>
+                <h2>Realizar Pago Gasto Común</h2>
+                <span>Sección de Pago para Gasto Común</span>
+            </header>
+            <form action="">
+                <div class="input-container">
+                    <label for="departmentNumber">N° Departamento</label>
+                    <input id="departmentNumber" name="departmentNumber" type="number">
+                </div>
+                <div class="input-group">
+                    <div class="input-container">
+                        <label for="cancelDate">Fecha Cancelación</label>
+                        <input id="cancelDate" name="cancelDate" type="date">
+                    </div>
+                    <div class="input-container">
+                        <label for="cancelTime">Periodo Cancelación</label>
+                        <input id="cancelTime" name="cancelTime" type="date">
+                    </div>
+                </div>
+                <div class="bottom-payment">
+                    <h3>Monto: $</h3>
+                    <button type="submit">Pagar Gasto Común</button>
+                </div>
+            </form>
+        </section>
+        <section>
+            <header>
+                <h2>Listado de Gastos Comunes</h2>
+                <span>Listado de Gastos Comunes pendientes</span>
+            </header>
+        </section>
+    </main>
+</body>
+</html>
