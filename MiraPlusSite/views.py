@@ -3,6 +3,19 @@ from django.http import JsonResponse
 from .models import Deuda, Departamento, Pago
 import datetime
 
+def get_all_deudas():
+    return Deuda.objects.all()
+
+def get_all_pagos():
+    return Pago.objects.all()
+
+def deuda_filter(request):
+    deudas = get_all_deudas()
+    estado = request.GET.get('estado')
+    if estado:
+        deudas = deudas.filter(estado=estado)
+    return deudas
+
 def index(request):
     if request.method == 'POST':
         month_year = request.POST.get('monthYear')
@@ -25,12 +38,8 @@ def index(request):
             return redirect('index')
 
     departamentos = Departamento.objects.all()
-    deudas = Deuda.objects.all()
-    pagos = Pago.objects.all()
-
-    estado = request.GET.get('estado')
-    if estado:
-        deudas = deudas.filter(estado=estado)
+    deudas = deuda_filter(request)
+    pagos = get_all_pagos()
 
     return render(request, 'index.html', {'deudas': deudas, 'departamentos': departamentos, 'pagos': pagos})
 
@@ -41,7 +50,6 @@ def get_deudas_pendientes(request, depto_id):
 
 def pagar_gasto_comun(request):
     if request.method == 'POST':
-        print("Form Data:", request.POST)  # Imprime los datos del formulario en la consola
         department_number = request.POST.get('departmentNumber')
         deuda_id = request.POST.get('deuda')
         
