@@ -1,12 +1,12 @@
+{% load static %}
 {% load custom_filters %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesitón Gastos Comunes</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <title>Gestión de Gastos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
 </head>
 <body>
     <header>
@@ -20,47 +20,54 @@
                 <h2>Generar Gastos Comunes</h2>
                 <span>Generación de Gastos Comunes para todos los departamentos</span>
             </header>
-            <form action="" method="GET">
+            <form action="" method="POST">
                 {% csrf_token %}
                 <div class="input-group"> 
                     <div class="input-container">
                         <label for="monthYear">Mes/Año</label>
-                        <input id="monthYear" name="monthYear" type="text">
+                        <input id="monthYear" name="monthYear" type="text" pattern="\d{2}-\d{4}" placeholder="MM-YYYY" required>
                     </div>
                     <div class="input-container">
                         <label for="mount">Monto</label>
-                        <input id="mount" name="mount" type="number">
+                        <input id="mount" name="mount" type="number" required>
                     </div>
                 </div>
                 <div class="form-buttons">
-                    <button>Limpiar</button>
+                    <button type="reset">Limpiar</button>
                     <button type="submit">Generar Gasto Común</button>
                 </div>
             </form>
         </section>
         <section>
-            <header>
-                <h2>Realizar Pago Gasto Común</h2>
-                <span>Sección de Pago para Gasto Común</span>
+            <header class="header-container">
+                <div>
+                    <h2>Realizar Pago Gasto Común</h2>
+                    <span>Sección de Pago para Gasto Común</span>
+                </div>
             </header>
-            <form action="" method="POST">
+            <form action="{% url 'pagar_gasto_comun' %}" method="POST">
                 {% csrf_token %}
                 <div class="input-container">
                     <label for="departmentNumber">N° Departamento</label>
-                    <input id="departmentNumber" name="departmentNumber" type="number">
+                    <select id="departmentNumber" name="departmentNumber" required>
+                        <option value="">Seleccione un departamento</option>
+                        {% for departamento in departamentos %}
+                            <option value="{{ departamento.num_departamento }}">{{ departamento.num_departamento }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="input-group">
-                    <div class="input-container">
-                        <label for="cancelDate">Fecha Cancelación</label>
-                        <input id="cancelDate" name="cancelDate" type="date">
-                    </div>
-                    <div class="input-container">
-                        <label for="cancelTime">Periodo Cancelación</label>
-                        <input id="cancelTime" name="cancelTime" type="date">
-                    </div>
+                <div class="input-container">
+                    <label for="deuda">Deuda</label>
+                    <select id="deuda" name="deuda" required>
+                        <option value="">Seleccione una deuda</option>
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="cancelTime">Periodo Cancelación</label>
+                    <input id="cancelTime" name="cancelTime" type="text" readonly>
                 </div>
                 <div class="bottom-payment">
-                    <h3>Monto: $</h3>
+                    <h3>Monto: <span id="montoDeuda">0.00</span></h3>
                     <button type="submit">Pagar Gasto Común</button>
                 </div>
             </form>
@@ -69,7 +76,6 @@
             <header class="header-container">
                 <div>
                     <h2>Listado de Deudas Gastos Comunes</h2>
-                    <span>Listado de Gastos Comunes</span>
                 </div>
                 <form method="get" action="">
                     <label for="estado">Estado de Deuda:</label>
@@ -87,7 +93,7 @@
                         <th>ID Deuda</th>
                         <th>Monto</th>
                         <th>Estado</th>
-                        <th>Fecha Pago de Deuda</th>
+                        <th>Fecha de Deuda</th>
                         <th>Periodo de Deuda</th>
                         <th>Departamento</th>
                     </tr>
@@ -105,6 +111,41 @@
                     {% empty %}
                     <tr>
                         <td colspan="6">No se encontraron deudas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <header class="header-container">
+                <div>
+                    <h2>Listado de Pagos Gastos Comunes</h2>
+                </div>
+            </header>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID Pago</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Fecha de Pago</th>
+                        <th>Periodo de Pago</th>
+                        <th>Departamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pago in pagos %}
+                    <tr>
+                        <td>{{ pago.id_pago }}</td>
+                        <td>{{ pago.monto|currency }}</td>
+                        <td>{{ pago.estado }}</td>
+                        <td>{{ pago.fecha_pago }}</td>
+                        <td>{{ pago.periodo_pago }}</td>
+                        <td>{{ pago.num_departamento.num_departamento }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No hay pagos</td>
                     </tr>
                     {% endfor %}
                 </tbody>
