@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib import messages
 from .models import Deuda, Departamento, Pago
 import datetime
 
@@ -74,5 +75,7 @@ def pagar_gasto_comun(request):
                 periodo_pago=periodo_pago,
                 num_departamento=deuda.num_departamento
             )
+            messages.success(request, estado_pago)
             return redirect('index')
+    messages.error(request, 'Error en el pago')
     return redirect('index')
